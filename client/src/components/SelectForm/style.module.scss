@@ -1,0 +1,28 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+
+    &__container {
+        padding: 40px;
+        background: white;
+        border-radius: 5px;
+        width: 500px;
+    }
+
+    &__button {
+        margin-top: 20px;
+        background: white;
+        border: 1px rgb(216 209 209) solid;
+        padding: 10px
+
+    }
+
+    &__input {
+        padding: 5px;
+        border: none;
+        border-bottom: 1px rgb(216 209 209) solid;
+        outline: none;
+    }
+}
