@@ -27,8 +27,8 @@ export const Input: FC<IInputProps> = ({
       {legend && <Legend text={legend} />}
       <input
         {...register(name, { required })}
-        {...props}
         className={styles.input}
+        {...props}
       />
     </div>
   );
