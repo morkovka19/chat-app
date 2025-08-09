@@ -7,7 +7,7 @@ import { Server } from 'socket.io';
 const app = express();
 const PORT = 4000;
 const CHAT_BOT = 'ChatBot';
-const allUsers: Array<{ id: string, user: string, room: string }> = [];
+const allUsers: Array<{ id: string, username: string, room: string }> = [];
 let chatRoom = '';
 
 app.use(cors());
@@ -24,32 +24,45 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-    console.log(`User connected ${socket.id}`);
 
     socket.on('join_room', (data) => {
-        const { user, room } = data;
+        const { username, room } = data;
         socket.join(room);
 
         const __createdtime__ = Date.now();
-        socket.to(room).emit('recieve_message', {
-            message: `${user} has joined the chat  room`,
+        socket.to(room).emit('receive_message', {
+            message: `${username} has joined the chat room`,
             username: CHAT_BOT,
             __createdtime__
         });
 
         socket.emit('receive_message', {
-            message: `Welcome ${user}`,
+            message: `Welcome ${username}`,
             username: CHAT_BOT,
             __createdtime__,
         });
 
         chatRoom = room;
         let chatRoomUsers;
-        allUsers.push({ id: socket.id, user, room });
+        allUsers.push({ id: socket.id, username, room });
         chatRoomUsers = allUsers.filter((user) => user.room === room);
         socket.to(room).emit('chatroom_users', chatRoomUsers);
         socket.emit('chatroom_users', chatRoomUsers);
-    })
+
+        socket.on('new_message', (data: {message: string, username: string, __createdtime__: number}) => {
+            socket.to(room).emit('receive_message', {
+            message: data.message,
+            username: data.username,
+            __createdtime__
+        });
+
+        socket.emit('receive_message', {
+            message: data.message,
+            username: data.username,
+            __createdtime__
+        });
+        })
+    });
 });
 
 

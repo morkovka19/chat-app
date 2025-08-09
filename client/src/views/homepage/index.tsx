@@ -10,17 +10,19 @@ interface IMainPageProps {
 }
 export const MainPage: FC<IMainPageProps> = ({ socket }) => {
   const { setRoom, setUser } = useUserStore();
-  const { replace } = useRouter();
+  const { push } = useRouter();
   const handleSubmit = useCallback(
-    ({ user = "", room = "" }: IUser) => {
+    async ({ user = "", room = "" }: IUser) => {
+
       setRoom(room);
       setUser(user);
-      if (user !== "" && room !== "") {
-        socket.emit("join_room", { user, room });
-        replace("/chat");
+
+      if (user && room) {
+        await push("/chat");
+        socket.emit("join_room", { username: user, room });
       }
     },
-    [setRoom, setUser]
+    [setRoom, setUser, socket, push]
   );
 
   return (

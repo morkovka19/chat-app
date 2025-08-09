@@ -1,0 +1,38 @@
+.menu {
+    display: flex;
+    position: static;
+    flex-direction: column;
+    gap: 60px;
+    min-height: 200px;
+    color: #574d4d;
+    border-right: #574d4d 1px solid;
+    padding: 40px;
+    &__title{
+        font-size: 30px;
+        text-transform: uppercase;
+    }
+    &__usersBlock{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    &__usersList{
+        margin-left: 20px;
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        gap: 10px
+    }
+    &__usersTitle{
+        text-transform: uppercase;
+    }
+    &__button{
+        padding: 10px;
+        color: #574d4d;
+        border: none;
+        width: 300px;
+        align-self: center;
+        border-radius: 5px;
+
+    }
+}
